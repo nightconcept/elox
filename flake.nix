@@ -17,8 +17,10 @@
       in {
         devShell = pkgs.mkShell {
           packages = with pkgs; [
-            erlang_27
+            _7zz
             elixir_1_18
+            xz
+            zig
           ];
         };
       }

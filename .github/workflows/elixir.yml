@@ -1,0 +1,56 @@
+name: Elixir CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: "Elixir ${{matrix.elixir}} OTP ${{matrix.otp}}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # https://github.com/elixir-lang/elixir/blob/main/lib/elixir/pages/references/compatibility-and-deprecations.md
+          - elixir: 1.18.x
+            otp: 27
+            os: ubuntu-latest
+            warnings_as_errors: true
+    env:
+      MIX_ENV: test
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - name: Install Dependencies
+        run: |
+          mix deps.get
+      - name: Cache build artifacts
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.hex
+            ~/.mix
+            _build
+          key: ${{ matrix.otp }}-${{ matrix.elixir }}-build
+      - run: mix deps.compile
+      - run: mix compile --warnings-as-errors
+      - run: mix test
+      - run: mix coveralls.github
+      # - name: Coveralls GitHub Action
+      #   uses: coverallsapp/github-action@v2.3.6
+      #   with:
+      #       github-token: ${{ github.token }}
+      
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
