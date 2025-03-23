@@ -9,15 +9,7 @@ defmodule Elox do
     {:ok, spawn(fn -> main(System.argv()) end)}
    end
 
-  @doc """
-  Hello world.
 
-  ## Examples
-
-      iex> Elox.hello()
-      :world
-
-  """
   def main(args) do
     IO.puts("Number of arguments: #{length(args)}")
     cond do
@@ -44,7 +36,6 @@ defmodule Elox do
 
   def run(source) do
     IO.puts("Source: #{inspect(source)}")
-    System.halt(0)
   end
 
 end
