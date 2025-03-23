@@ -3,7 +3,7 @@ defmodule Elox.MixProject do
 
   def project do
     [
-      app: :opal,
+      app: :elox,
       version: "0.1.0",
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
@@ -17,21 +17,26 @@ defmodule Elox.MixProject do
         "coveralls.cobertura": :test
       ],
       releases: releases(),
+      escript: escript(),
       aliases: aliases()
+    ]
+  end
+
+  def escript do
+    [
+      main_module: Elox
     ]
   end
 
   defp aliases do
     [
-      elox: ["run", "Elox"]
+      elox: "elox.run"
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger],
-      mod: {Elox, []}
     ]
   end
 

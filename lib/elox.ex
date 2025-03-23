@@ -3,10 +3,10 @@ defmodule Elox do
   Documentation for `Elox`.
   """
 
-  def start(_, _) do
+  def start(_type, _args) do
     # Returning `{:ok, pid}` will prevent the application from halting.
     # Use System.halt(exit_code) to terminate the VM when required
-    System.argv() |> run()
+    {:ok, spawn(fn -> main(System.argv()) end)}
    end
 
   @doc """
@@ -18,28 +18,33 @@ defmodule Elox do
       :world
 
   """
-  def main do
-    System.argv() |> run()
-  end
-
-  def run(arguments) do
+  def main(args) do
+    IO.puts("Number of arguments: #{length(args)}")
     cond do
-      length(arguments) > 1 ->
+      length(args) > 1 ->
         IO.puts("Usage: elox [script]")
-      length(arguments) == 1 ->
-        run_file()
+      length(args) == 1 ->
+        List.first(args) |> run_file()
       true ->
-        run_prompt()
+        repl()
     end
-
   end
 
-
-  def run_file() do
-    IO.puts("Running file!")
+  def run_file(path) do
+    IO.puts("Path: #{path}")
+    case File.read(path) do
+      {:ok, source} -> run(source)
+      {:error, reason} -> IO.puts("Error reading file: #{inspect(reason)}")
+    end
   end
 
-  def run_prompt do
-    IO.puts("Running file!")
+  def repl do
+    IO.puts("Running REPL!")
   end
+
+  def run(source) do
+    IO.puts("Source: #{inspect(source)}")
+    System.halt(0)
+  end
+
 end
