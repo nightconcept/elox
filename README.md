@@ -5,6 +5,11 @@
 
 This is the Lox programming language interpreter from [Crafting Interpreters](https://craftinginterpreters.com/) impelmented in the Elixir programming language.
 
+* [Requirements](#requirements)
+* [Setup](#setup)
+* [Build](#build)
+* [Usage](#usage)
+
 ## Requirements
 - Nix 2.x+
 - direnv 2.x+

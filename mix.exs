@@ -16,7 +16,14 @@ defmodule Elox.MixProject do
         "coveralls.html": :test,
         "coveralls.cobertura": :test
       ],
-      releases: releases()
+      releases: releases(),
+      aliases: aliases()
+    ]
+  end
+
+  defp aliases do
+    [
+      elox: ["run", "Elox"]
     ]
   end
 
