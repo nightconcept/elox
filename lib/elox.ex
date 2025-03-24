@@ -11,12 +11,17 @@ defmodule Elox do
 
 
   def main(args) do
-    IO.puts("Number of arguments: #{length(args)}")
+    # TODO fix this via: https://www.jonathanychan.com/blog/statically-linking-an-elixir-command-line-application-using-burrito/
+    arguments =
+      case { args, Burrito.Util.Args.get_arguments()} do
+        {[], arguments} -> arguments
+        {[_ | arguments], _} -> arguments
+      end
     cond do
-      length(args) > 1 ->
+      length(arguments) > 1 ->
         IO.puts("Usage: elox [script]")
-      length(args) == 1 ->
-        List.first(args) |> run_file()
+      length(arguments) == 1 ->
+        List.first(arguments) |> run_file()
       true ->
         repl()
     end

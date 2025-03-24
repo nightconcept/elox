@@ -17,14 +17,7 @@ defmodule Elox.MixProject do
         "coveralls.cobertura": :test
       ],
       releases: releases(),
-      escript: escript(),
       aliases: aliases()
-    ]
-  end
-
-  def escript do
-    [
-      main_module: Elox
     ]
   end
 
@@ -37,6 +30,7 @@ defmodule Elox.MixProject do
   def application do
     [
       extra_applications: [:logger],
+      mod: {Elox, []}
     ]
   end
 
@@ -62,7 +56,7 @@ defmodule Elox.MixProject do
 
   def releases do
     [
-      example_cli_app: [
+      elox: [
         steps: [:assemble, &Burrito.wrap/1],
         burrito: [
           targets: [
